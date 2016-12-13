@@ -1,0 +1,13 @@
+#%RAML 0.8
+---
+title: Thunderclap API
+baseUri: http://localhost:3000/{version}
+version: v1
+
+/user:
+  /{username}:
+    put:
+      queryParameters:
+        email:
+        password:
+        image:

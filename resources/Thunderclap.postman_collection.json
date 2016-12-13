@@ -1,0 +1,30 @@
+{
+	"id": "ce5a2781-b36a-1b32-9c48-8d00454be05d",
+	"name": "Thunderclap",
+	"requests": [
+		{
+			"id": "09b62ed1-0823-831c-f9fd-2efaa7467283",
+			"headers": "",
+			"url": "{{api_url}}/user/{{username}}",
+			"pathVariables": {},
+			"preRequestScript": null,
+			"method": "PUT",
+			"collectionId": "ce5a2781-b36a-1b32-9c48-8d00454be05d",
+			"data": null,
+			"dataMode": "params",
+			"name": "Create User",
+			"description": "",
+			"descriptionFormat": "html",
+			"time": 1481657865517,
+			"version": 2,
+			"responses": [],
+			"tests": null,
+			"currentHelper": "normal",
+			"helperAttributes": {}
+		}
+	],
+	"order": [
+		"09b62ed1-0823-831c-f9fd-2efaa7467283"
+	],
+	"timestamp": 1481657865518
+}
