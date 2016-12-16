@@ -7,7 +7,20 @@ version: v1
 /user:
   /{username}:
     put:
+      description: Create user record
       queryParameters:
         email:
         password:
         image:
+      responses:
+         201:
+           body:
+             application/json:
+    get:
+      description: Retrieve user record
+      queryParameters:
+        username:
+      responses:
+         200:
+           body:
+             application/json:

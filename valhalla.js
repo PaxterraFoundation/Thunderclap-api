@@ -1,4 +1,7 @@
 var _ = require('underscore');
+var Q = require('q');
+var log = require('chip')();
+var config = require("./config");
 var mysql = require('mysql');
 
 var valhalla = function(api) {
@@ -14,15 +17,37 @@ var valhalla = function(api) {
 	};
 
 	this.getUser = function(userdata) {
-		return this.sql(`
-			SELECT * FROM User
-			WHERE username = ${userdata.username};
-		`);
+		var that = this;
+		var deferred = Q.defer();
+
+		this.sql("SELECT * FROM " + config.mysql.database + ".User WHERE username = " + db.escape(userdata.username))
+			.then(function(rows, fields, returnValue) {
+				log.info("Got "+rows[0].username);
+				deferred.resolve(
+					that.returnValue(
+						returnValue,
+						{
+							data: rows
+						}
+					)
+				);
+			}).catch(function(returnValue) {
+				deferred.reject(that.returnValue(returnValue, {
+					http_status: 100,
+					code: 100,
+					text: "Unknown and mysterious error!"
+				}));
+			});
+
+		return deferred.promise;
 	};
 
 	this.createUser = function(userdata) {
-		return this.sql(`
-			INSERT INTO thunder.User
+		var that = this;
+		var deferred = Q.defer();
+
+		this.sql(`
+			INSERT INTO ${config.mysql.database}.User
 			(
 				email,
 				username,
@@ -30,28 +55,55 @@ var valhalla = function(api) {
 				image
 			)
 			VALUES (
-				'${userdata.email}',
-				'${userdata.username}',
-				'${userdata.password}',
-				'${userdata.image}'
+				`+db.escape(userdata.email)+`,
+				`+db.escape(userdata.username)+`,
+				`+db.escape(userdata.password)+`,
+				`+db.escape(userdata.image)+`
 			);
-		`);
+		`).then(function(err, rows, fields, returnValue) {
+			log.info("Apparent success in DB");
+			log.info('DB Rows: ',rows);
+			log.info('DB Fields: ',fields);
+			deferred.resolve(that.returnValue(returnValue), {
+				http_status: 201,
+				leroyBrown: "bad"
+			});
+		}).catch(function(returnValue) {
+			returnValue = that.returnValue(returnValue, {
+				http_status: 400,
+				text: "Some required data was omitted."
+			});
+			deferred.reject(returnValue);
+		});
+
+		return deferred.promise;
 	};
 
 	this.sql = function(query) {
 		var that = this;
 		return new Promise((resolve, reject) => {
+			log.trace(query);
 			db.query(query, function(err, rows, fields) {
-				return resolve(that.returnValue());
+				if (err) {
+					log.error("DB Error: "+JSON.stringify(err));
+					reject(that.returnValue({
+						mysql_error: err
+					}));
+				}
+				resolve(rows, fields);
 			});
 		});
 	};
 
-	this.returnValue = function(overrides) {
-		return _.extend({
-			code: 200,
+	this.returnValue = function() {
+		var returnValue = {
+			http_status: 200,
 			text: "AOK"
-		}, overrides);
+		};
+		Array.prototype.slice.call(arguments).map(function(override) {
+			returnValue = _.extend(returnValue, override);
+		});
+		return returnValue;
 	};
 
 	this.destroy = function() {

@@ -3,6 +3,7 @@ var configuration = {
 	ver: "1",
 	raml: "./resources/api.raml",
 	mysql: {
+		database: 'thunder',
 		host: 'localhost',
 		user: 'thunderclap',
 		password: 'boom'

@@ -1,4 +1,5 @@
 var config = require("./config");
+var log = require('chip')();
 var osprey = require("osprey");
 var app = require("express")();
 var bodyParser = require("body-parser");
