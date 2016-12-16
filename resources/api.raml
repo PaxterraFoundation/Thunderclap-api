@@ -6,7 +6,7 @@ version: v1
 
 /user:
   /{username}:
-    put:
+    post:
       description: Create user record
       queryParameters:
         email:
@@ -31,7 +31,23 @@ version: v1
           username:
 /group:
   /{groupname}:
-    put:
+    post:
       description: Create group
       queryParameters:
         username:
+    /nodes:
+      /all:
+        get:
+          description: Get fully and partially-ratified nodes
+          queryParameters:
+            username:
+      /ratified:
+        get:
+          description: Get fully-ratified nodes
+          queryParameters:
+            username:
+    /members:
+      get:
+        description: Get all members of this group
+        queryParameters:
+          username:

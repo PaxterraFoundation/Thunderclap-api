@@ -46,7 +46,7 @@
 			"url": "{{api_url}}/user/{{username}}?email={{email}}&password=none&image=dolphin.jpg",
 			"preRequestScript": null,
 			"pathVariables": {},
-			"method": "PUT",
+			"method": "POST",
 			"data": [
 				{
 					"key": "",
@@ -60,7 +60,7 @@
 			"tests": "tests[\"Status code is 200\"] = responseCode.code === 200;",
 			"currentHelper": "normal",
 			"helperAttributes": {},
-			"time": 1481872612094,
+			"time": 1481917706583,
 			"name": "User",
 			"description": "",
 			"collectionId": "ce5a2781-b36a-1b32-9c48-8d00454be05d",
@@ -72,7 +72,7 @@
 			"url": "{{api_url}}/group/{{groupname}}?username={{username}}",
 			"preRequestScript": null,
 			"pathVariables": {},
-			"method": "PUT",
+			"method": "POST",
 			"data": [
 				{
 					"key": "",
@@ -87,7 +87,7 @@
 			"tests": "tests[\"Status code is 200\"] = responseCode.code === 200;",
 			"currentHelper": "normal",
 			"helperAttributes": {},
-			"time": 1481872600599,
+			"time": 1481917711582,
 			"name": "Group",
 			"description": "",
 			"collectionId": "ce5a2781-b36a-1b32-9c48-8d00454be05d",

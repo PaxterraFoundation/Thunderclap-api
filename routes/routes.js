@@ -46,12 +46,12 @@ var appRouter = function(api) {
 		return valhalla('getGroupsUserIsIn', req, res, api.session.user.id);
 	});
 
-	app.put(urlPrefix+"/user/:username", function (req, res) {
+	app.post(urlPrefix+"/user/:username", function (req, res) {
 		log("Creating "+req.params.username);
 		return valhalla('createUser', req, res);
 	});
 
-	app.put(urlPrefix+"/group/:groupname", function (req, res) {
+	app.post(urlPrefix+"/group/:groupname", function (req, res) {
 		log("Creating group "+req.params.groupname, req.query);
 		return valhalla('createGroup', req, res, req.params.groupname);
 	});

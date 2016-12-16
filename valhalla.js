@@ -122,7 +122,14 @@ var valhalla = function(api) {
 				log.info('Created Group entity, id: ' + insertId);
 				that.associateGroupWithUser(req, res, insertId, api.session.user.id)
 					.then(function(returnValue) {
-						deferred.resolve(that.returnValue(returnValue));
+						deferred.resolve(that.returnValue(returnValue, {
+							http_status: 201,
+							text: "Group created",
+							data: {
+								id: insertId,
+								name: groupname
+							}
+						}));
 					})
 			} else {
 				log.error('Group INSERT caused ' + result[0].affectedRows + ' affected rows');
@@ -178,7 +185,7 @@ var valhalla = function(api) {
 				AND ug.group_id = g.id;
 		`).then(function(rows, fields, returnValue) {
 			if (rows.length) {
-				log.info("Found "+rows.length+" groups associated with user "+userId);
+				log.info("Found "+rows[0].length+" group(s) associated with user #"+userId);
 				deferred.resolve(
 					that.returnValue(
 						returnValue,
