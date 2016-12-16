@@ -1,30 +1,96 @@
 {
 	"id": "ce5a2781-b36a-1b32-9c48-8d00454be05d",
-	"name": "Thunderclap",
+	"name": "Thunderclap v1",
+	"description": "",
+	"order": [
+		"09b62ed1-0823-831c-f9fd-2efaa7467283",
+		"af373ced-89ca-5f31-8524-ce0dde398c1f",
+		"7d33f42d-3183-aaf7-2d90-340f974ce671"
+	],
+	"folders": [],
+	"timestamp": 1481657865518,
+	"owner": "",
+	"public": false,
 	"requests": [
 		{
 			"id": "09b62ed1-0823-831c-f9fd-2efaa7467283",
 			"headers": "",
-			"url": "{{api_url}}/user/{{username}}",
-			"pathVariables": {},
+			"url": "{{api_url}}/user/{{username}}?email={{email}}&password=none&image=dolphin.jpg",
 			"preRequestScript": null,
+			"pathVariables": {},
 			"method": "PUT",
-			"collectionId": "ce5a2781-b36a-1b32-9c48-8d00454be05d",
-			"data": null,
+			"data": [
+				{
+					"key": "",
+					"value": "",
+					"type": "text",
+					"enabled": true,
+					"warning": ""
+				}
+			],
 			"dataMode": "params",
-			"name": "Create User",
-			"description": "",
-			"descriptionFormat": "html",
-			"time": 1481657865517,
-			"version": 2,
-			"responses": [],
-			"tests": null,
+			"tests": "tests[\"Status code is 200\"] = responseCode.code === 200;",
 			"currentHelper": "normal",
-			"helperAttributes": {}
+			"helperAttributes": {},
+			"time": 1481872612094,
+			"name": "User",
+			"description": "",
+			"collectionId": "ce5a2781-b36a-1b32-9c48-8d00454be05d",
+			"responses": []
+		},
+		{
+			"id": "7d33f42d-3183-aaf7-2d90-340f974ce671",
+			"headers": "",
+			"url": "{{api_url}}/group/{{groupname}}?username={{username}}",
+			"preRequestScript": null,
+			"pathVariables": {},
+			"method": "PUT",
+			"data": [
+				{
+					"key": "",
+					"value": "",
+					"type": "text",
+					"enabled": true,
+					"warning": ""
+				}
+			],
+			"dataMode": "params",
+			"version": 2,
+			"tests": "tests[\"Status code is 200\"] = responseCode.code === 200;",
+			"currentHelper": "normal",
+			"helperAttributes": {},
+			"time": 1481872600599,
+			"name": "Group",
+			"description": "",
+			"collectionId": "ce5a2781-b36a-1b32-9c48-8d00454be05d",
+			"responses": []
+		},
+		{
+			"id": "af373ced-89ca-5f31-8524-ce0dde398c1f",
+			"headers": "",
+			"url": "{{api_url}}/user/{{username}}",
+			"preRequestScript": null,
+			"pathVariables": {},
+			"method": "GET",
+			"data": [
+				{
+					"key": "",
+					"value": "",
+					"type": "text",
+					"enabled": true,
+					"warning": ""
+				}
+			],
+			"dataMode": "params",
+			"version": 2,
+			"tests": "tests[\"Status code is 200\"] = responseCode.code === 200;",
+			"currentHelper": "normal",
+			"helperAttributes": {},
+			"time": 1481872615695,
+			"name": "User",
+			"description": "",
+			"collectionId": "ce5a2781-b36a-1b32-9c48-8d00454be05d",
+			"responses": []
 		}
-	],
-	"order": [
-		"09b62ed1-0823-831c-f9fd-2efaa7467283"
-	],
-	"timestamp": 1481657865518
+	]
 }
