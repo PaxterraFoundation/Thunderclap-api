@@ -24,6 +24,11 @@ version: v1
          200:
            body:
              application/json:
+    /groups:
+      get:
+        description: List user's immediate groups
+        queryParameters:
+          username:
 /group:
   /{groupname}:
     put:

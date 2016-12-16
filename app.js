@@ -7,7 +7,8 @@ var Valhalla = require("./valhalla");
 var api = {
 	config: config,
 	app: app,
-	valhalla: undefined
+	valhalla: undefined,
+	session: {}
 };
 api.valhalla = new Valhalla(api);
  

@@ -5,13 +5,41 @@
 	"order": [
 		"09b62ed1-0823-831c-f9fd-2efaa7467283",
 		"af373ced-89ca-5f31-8524-ce0dde398c1f",
-		"7d33f42d-3183-aaf7-2d90-340f974ce671"
+		"7d33f42d-3183-aaf7-2d90-340f974ce671",
+		"07c3c7cd-f088-ab5b-55cb-3ebb507f3449"
 	],
 	"folders": [],
 	"timestamp": 1481657865518,
 	"owner": "",
 	"public": false,
 	"requests": [
+		{
+			"id": "07c3c7cd-f088-ab5b-55cb-3ebb507f3449",
+			"headers": "",
+			"url": "{{api_url}}/user/{{username}}/groups?username={{username}}",
+			"preRequestScript": null,
+			"pathVariables": {},
+			"method": "GET",
+			"data": [
+				{
+					"key": "",
+					"value": "",
+					"type": "text",
+					"enabled": true,
+					"warning": ""
+				}
+			],
+			"dataMode": "params",
+			"version": 2,
+			"tests": "tests[\"Status code is 200\"] = responseCode.code === 200;",
+			"currentHelper": "normal",
+			"helperAttributes": {},
+			"time": 1481875274351,
+			"name": "User/Groups",
+			"description": "",
+			"collectionId": "ce5a2781-b36a-1b32-9c48-8d00454be05d",
+			"responses": []
+		},
 		{
 			"id": "09b62ed1-0823-831c-f9fd-2efaa7467283",
 			"headers": "",
@@ -68,7 +96,7 @@
 		{
 			"id": "af373ced-89ca-5f31-8524-ce0dde398c1f",
 			"headers": "",
-			"url": "{{api_url}}/user/{{username}}",
+			"url": "{{api_url}}/user/{{username}}?username={{username}}",
 			"preRequestScript": null,
 			"pathVariables": {},
 			"method": "GET",
@@ -86,7 +114,7 @@
 			"tests": "tests[\"Status code is 200\"] = responseCode.code === 200;",
 			"currentHelper": "normal",
 			"helperAttributes": {},
-			"time": 1481872615695,
+			"time": 1481875291373,
 			"name": "User",
 			"description": "",
 			"collectionId": "ce5a2781-b36a-1b32-9c48-8d00454be05d",
