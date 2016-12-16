@@ -16,7 +16,7 @@
 		{
 			"id": "07c3c7cd-f088-ab5b-55cb-3ebb507f3449",
 			"headers": "",
-			"url": "{{api_url}}/user/{{username}}/groups?username={{username}}",
+			"url": "{{api_url}}/users/groups?username={{username}}",
 			"preRequestScript": null,
 			"pathVariables": {},
 			"method": "GET",
@@ -34,8 +34,8 @@
 			"tests": "tests[\"Status code is 200\"] = responseCode.code === 200;",
 			"currentHelper": "normal",
 			"helperAttributes": {},
-			"time": 1481875274351,
-			"name": "User/Groups",
+			"time": 1481919434115,
+			"name": "Users/Groups",
 			"description": "",
 			"collectionId": "ce5a2781-b36a-1b32-9c48-8d00454be05d",
 			"responses": []
@@ -43,7 +43,7 @@
 		{
 			"id": "09b62ed1-0823-831c-f9fd-2efaa7467283",
 			"headers": "",
-			"url": "{{api_url}}/user/{{username}}?email={{email}}&password=none&image=dolphin.jpg",
+			"url": "{{api_url}}/users/?username={{username}}&email={{email}}&password=none&image=dolphin.jpg",
 			"preRequestScript": null,
 			"pathVariables": {},
 			"method": "POST",
@@ -60,8 +60,8 @@
 			"tests": "tests[\"Status code is 200\"] = responseCode.code === 200;",
 			"currentHelper": "normal",
 			"helperAttributes": {},
-			"time": 1481917706583,
-			"name": "User",
+			"time": 1481921864733,
+			"name": "Users",
 			"description": "",
 			"collectionId": "ce5a2781-b36a-1b32-9c48-8d00454be05d",
 			"responses": []
@@ -69,7 +69,7 @@
 		{
 			"id": "7d33f42d-3183-aaf7-2d90-340f974ce671",
 			"headers": "",
-			"url": "{{api_url}}/group/{{groupname}}?username={{username}}",
+			"url": "{{api_url}}/groups/?groupname={{groupname}}&username={{username}}",
 			"preRequestScript": null,
 			"pathVariables": {},
 			"method": "POST",
@@ -87,8 +87,8 @@
 			"tests": "tests[\"Status code is 200\"] = responseCode.code === 200;",
 			"currentHelper": "normal",
 			"helperAttributes": {},
-			"time": 1481917711582,
-			"name": "Group",
+			"time": 1481921859853,
+			"name": "Groups",
 			"description": "",
 			"collectionId": "ce5a2781-b36a-1b32-9c48-8d00454be05d",
 			"responses": []
@@ -96,7 +96,7 @@
 		{
 			"id": "af373ced-89ca-5f31-8524-ce0dde398c1f",
 			"headers": "",
-			"url": "{{api_url}}/user/{{username}}?username={{username}}",
+			"url": "{{api_url}}/users/?username={{username}}",
 			"preRequestScript": null,
 			"pathVariables": {},
 			"method": "GET",
@@ -114,8 +114,8 @@
 			"tests": "tests[\"Status code is 200\"] = responseCode.code === 200;",
 			"currentHelper": "normal",
 			"helperAttributes": {},
-			"time": 1481875291373,
-			"name": "User",
+			"time": 1481921861948,
+			"name": "Users",
 			"description": "",
 			"collectionId": "ce5a2781-b36a-1b32-9c48-8d00454be05d",
 			"responses": []

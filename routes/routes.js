@@ -1,8 +1,8 @@
-var config = require("../config");
 var log = require('chip')();
 
 var appRouter = function(api) {
 	var app = api.app,
+		config = api.config,
 		urlPrefix = "/v"+config.ver;
 
 	var valhalla = function(method, req, res) {
@@ -14,7 +14,7 @@ var appRouter = function(api) {
 				log.error('Error: ', e);
 			}
 		};
-		promise.then(after, after);
+		return promise.then(after, after);
 	}
 
 	app.use(urlPrefix, function(req, res, next) {
@@ -36,24 +36,24 @@ var appRouter = function(api) {
 		}
 	});
 
-	app.get(urlPrefix+"/user/:username", function (req, res) {
-		log("Getting "+req.params.username);
-		return valhalla('getUser', req, res, req.params.username);
+	app.get(urlPrefix+"/users", function (req, res) {
+		log("Getting "+api.session.user.username);
+		return valhalla('getUser', req, res, api.session.user.username);
 	});
 
-	app.get(urlPrefix+"/user/:username/groups", function (req, res) {
-		log("Getting groups for user "+req.params.username);
+	app.get(urlPrefix+"/users/groups", function (req, res) {
+		log("Getting groups for user "+api.session.user.username);
 		return valhalla('getGroupsUserIsIn', req, res, api.session.user.id);
 	});
 
-	app.post(urlPrefix+"/user/:username", function (req, res) {
-		log("Creating "+req.params.username);
+	app.post(urlPrefix+"/users", function (req, res) {
+		log("Creating "+req.query.username);
 		return valhalla('createUser', req, res);
 	});
 
-	app.post(urlPrefix+"/group/:groupname", function (req, res) {
-		log("Creating group "+req.params.groupname, req.query);
-		return valhalla('createGroup', req, res, req.params.groupname);
+	app.post(urlPrefix+"/groups", function (req, res) {
+		log("Creating group "+req.query.groupname, req.query);
+		return valhalla('createGroup', req, res, req.query.groupname);
 	});
 }
 

@@ -4,50 +4,68 @@ title: Thunderclap API
 baseUri: http://localhost:3000/{version}
 version: v1
 
-/user:
-  /{username}:
-    post:
-      description: Create user record
-      queryParameters:
-        email:
-        password:
-        image:
-      responses:
-         201:
-           body:
-             application/json:
+/users:
+  post:
+    description: Create user record
+    queryParameters:
+      email:
+      password:
+      image:
+    responses:
+       201:
+         body:
+           application/json:
+  get:
+    description: Retrieve user record
+    queryParameters:
+      username:
+    responses:
+       200:
+         body:
+           application/json:
+  /groups:
     get:
-      description: Retrieve user record
+      description: List user's immediate groups
       queryParameters:
         username:
       responses:
          200:
            body:
              application/json:
-    /groups:
-      get:
-        description: List user's immediate groups
-        queryParameters:
-          username:
-/group:
-  /{groupname}:
-    post:
-      description: Create group
+/groups:
+  post:
+    description: Create group
+    queryParameters:
+      username:
+      groupname:
+    responses:
+       201:
+         body:
+           application/json:
+  /nodes:
+    get:
+      description: Get fully and partially-ratified nodes
       queryParameters:
         username:
-    /nodes:
-      /all:
-        get:
-          description: Get fully and partially-ratified nodes
-          queryParameters:
-            username:
-      /ratified:
-        get:
-          description: Get fully-ratified nodes
-          queryParameters:
-            username:
-    /members:
+      responses:
+         200:
+           body:
+             application/json:
+    /ratified:
       get:
-        description: Get all members of this group
+        description: Get fully-ratified nodes
         queryParameters:
           username:
+        responses:
+           200:
+             body:
+               application/json:
+  /members:
+    get:
+      description: Get all members of this group
+      queryParameters:
+        username:
+      responses:
+         200:
+           body:
+             application/json:

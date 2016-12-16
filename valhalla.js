@@ -1,16 +1,16 @@
 var _ = require('underscore');
 var Q = require('q');
 var log = require('chip')();
-var config = require("./config");
 var mysql = require('mysql');
 
 var valhalla = function(api) {
-	var app = api.app;
-	var db = mysql.createConnection({
-		host: api.config.mysql.host,
-		user: api.config.mysql.user,
-		password: api.config.mysql.password
-	});
+	var app = api.app,
+		config = api.config,
+		db = mysql.createConnection({
+			host: api.config.mysql.host,
+			user: api.config.mysql.user,
+			password: api.config.mysql.password
+		});
 
 	this.construct = function() {
 		db.connect();
@@ -61,7 +61,7 @@ var valhalla = function(api) {
 	this.createUser = function(req) {
 		var that = this,
 			userdata = {
-				username: req.params.username,
+				username: req.query.username,
 				email: req.query.email,
 				password: req.query.password,
 				image: req.query.image
@@ -119,7 +119,7 @@ var valhalla = function(api) {
 		`).then(function(result) {
 			if (result[0].affectedRows === 1) {
 				var insertId = result[0].insertId;
-				log.info('Created Group entity, id: ' + insertId);
+				log.info('Created Group entity "'+groupname+'", id: ' + insertId);
 				that.associateGroupWithUser(req, res, insertId, api.session.user.id)
 					.then(function(returnValue) {
 						deferred.resolve(that.returnValue(returnValue, {
