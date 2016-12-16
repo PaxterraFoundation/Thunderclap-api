@@ -16,35 +16,57 @@ var valhalla = function(api) {
 		db.connect();
 	};
 
-	this.getUser = function(userdata) {
-		var that = this;
-		var deferred = Q.defer();
+	this.getUser = function(req, res, username) {
+		var that = this,
+			deferred = Q.defer();
 
-		this.sql("SELECT * FROM " + config.mysql.database + ".User WHERE username = " + db.escape(userdata.username))
+		this.sql("SELECT * FROM " + config.mysql.database + ".User WHERE username = " + db.escape(username))
 			.then(function(rows, fields, returnValue) {
-				log.info("Got "+rows[0].username);
-				deferred.resolve(
+				if (rows.length) {
+					log.info("Got "+rows[0].username);
+					deferred.resolve(
+						that.returnValue(
+							returnValue,
+							{
+								data: rows
+							}
+						)
+					);
+				} else {
+					log.warn("Could not find user "+username);
+					deferred.reject(
+						that.returnValue(
+							{
+								http_status: 404,
+								text: "User '"+username+"' not found"
+							}
+						)
+					);
+				}
+			}).catch(function(returnValue) {
+				deferred.reject(
 					that.returnValue(
 						returnValue,
 						{
-							data: rows
+							http_status: 100,
+							text: "Generic Error"
 						}
 					)
 				);
-			}).catch(function(returnValue) {
-				deferred.reject(that.returnValue(returnValue, {
-					http_status: 100,
-					code: 100,
-					text: "Unknown and mysterious error!"
-				}));
 			});
 
 		return deferred.promise;
 	};
 
-	this.createUser = function(userdata) {
-		var that = this;
-		var deferred = Q.defer();
+	this.createUser = function(req) {
+		var that = this,
+			userdata = {
+				username: req.params.username,
+				email: req.query.email,
+				password: req.query.password,
+				image: req.query.image
+			},
+			deferred = Q.defer();
 
 		this.sql(`
 			INSERT INTO ${config.mysql.database}.User
@@ -61,28 +83,61 @@ var valhalla = function(api) {
 				`+db.escape(userdata.image)+`
 			);
 		`).then(function(err, rows, fields, returnValue) {
-			log.info("Apparent success in DB");
-			log.info('DB Rows: ',rows);
-			log.info('DB Fields: ',fields);
-			deferred.resolve(that.returnValue(returnValue), {
-				http_status: 201,
-				leroyBrown: "bad"
-			});
+			deferred.resolve(that.returnValue(returnValue, {
+				http_status: 201
+			}));
 		}).catch(function(returnValue) {
-			returnValue = that.returnValue(returnValue, {
+			var rv = {
 				http_status: 400,
 				text: "Some required data was omitted."
-			});
+			};
+			switch (returnValue.mysql_error.code) {
+				case "ER_DUP_ENTRY":
+					rv.http_status = 409;
+					rv.text = "User may already exist."
+				break;
+			}
+			returnValue = that.returnValue(returnValue, rv);
 			deferred.reject(returnValue);
 		});
 
 		return deferred.promise;
 	};
 
+	this.createGroup = function(req, res, groupname) {
+		var that = this,
+			deferred = Q.defer();
+
+		// First get the user record
+		this.getUser(req, res, req.query.username)
+			.then(function(returnValue) {
+				that.sql(`
+					INSERT INTO ${config.mysql.database}.Group
+					(
+						name
+					)
+					VALUES (
+						`+db.escape(groupname)+`
+					);
+				`).then(function(err, rows, fields, returnValue) {
+					log('ok');
+					deferred.resolve(that.returnValue(returnValue, {
+
+					}));
+				}).catch(function(returnValue) {
+					log.error('uh oh');
+				});
+			}).catch(function(returnValue) {
+				deferred.reject(returnValue);
+			});
+
+		return deferred.promise;
+	};
+
 	this.sql = function(query) {
 		var that = this;
+		log.trace("DB Query: " + query);
 		return new Promise((resolve, reject) => {
-			log.trace(query);
 			db.query(query, function(err, rows, fields) {
 				if (err) {
 					log.error("DB Error: "+JSON.stringify(err));

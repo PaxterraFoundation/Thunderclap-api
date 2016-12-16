@@ -24,3 +24,9 @@ version: v1
          200:
            body:
              application/json:
+/group:
+  /{groupname}:
+    put:
+      description: Create group
+      queryParameters:
+        username:
