@@ -25,7 +25,7 @@ CREATE TABLE IF NOT EXISTS `thunder`.`User` (
   `email` VARCHAR(255) NOT NULL,
   `username` VARCHAR(45) NOT NULL,
   `password` VARCHAR(32) NOT NULL,
-  `create_time` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `date` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   `image` VARCHAR(45) NULL,
   PRIMARY KEY (`id`),
   UNIQUE INDEX `username_UNIQUE` (`username` ASC),
@@ -40,7 +40,7 @@ DROP TABLE IF EXISTS `thunder`.`Group` ;
 
 CREATE TABLE IF NOT EXISTS `thunder`.`Group` (
   `id` INT NOT NULL AUTO_INCREMENT,
-  `name` VARCHAR(45) NULL,
+  `name` VARCHAR(45) NOT NULL,
   PRIMARY KEY (`id`))
 ENGINE = InnoDB
 COMMENT = 'A group can belong to other groups.\n\nA group can ratify any node, if all groups in that group have ratified it, then that group has ratified it.';
@@ -67,7 +67,7 @@ CREATE TABLE IF NOT EXISTS `thunder`.`GroupGroup` (
   `group_id` INT NOT NULL,
   `child_group_id` INT NOT NULL,
   `association_status` VARCHAR(45) NOT NULL COMMENT 'In what spirit was the association made?\n\nAUTO: The system algorithmically lumped this group into this parent group. The association is loose. User may formalize it at will. The association is not declared within the UI, and the user cannot normally observe it, but the system offers it in subtle ways, like how Facebook is always aware that you have a high degree of correlation on the social graph with other people but only suggests them as friends occasionally. This creates the illusion of separation.\n\nMANUAL: Indicates that the user has opted-into a group via the UI. As the UI presents grouping, this association status represents the majority of group presentation.\n\n',
-  `date` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `date` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`group_id`, `child_group_id`))
 ENGINE = InnoDB
 COMMENT = 'Associates one group with another group. When group 42 votes unanimously to join group 12, that association is recorded here like:\n\ngroup_id = 12\nchild_group_id = 42\nassociation_status = MANUAL\ndate = <date of the unanimous vote>\n';
@@ -82,7 +82,7 @@ CREATE TABLE IF NOT EXISTS `thunder`.`Node` (
   `id` INT NOT NULL AUTO_INCREMENT,
   `data` VARCHAR(45) NOT NULL,
   `view` VARCHAR(45) NOT NULL,
-  `date` DATETIME NULL,
+  `date` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`))
 ENGINE = InnoDB;
 
@@ -96,7 +96,7 @@ CREATE TABLE IF NOT EXISTS `thunder`.`Connection` (
   `id` INT NOT NULL AUTO_INCREMENT,
   `node_id` INT NOT NULL,
   `child_node_id` INT NOT NULL,
-  `date` DATETIME NULL,
+  `date` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`, `node_id`, `child_node_id`))
 ENGINE = InnoDB
 COMMENT = 'Connection between Nodes.';
@@ -111,9 +111,22 @@ CREATE TABLE IF NOT EXISTS `thunder`.`Ratification` (
   `group_id` INT NOT NULL COMMENT 'Which',
   `node_id` INT NOT NULL COMMENT 'Which node is being ratified?',
   `voter_group_id` INT NOT NULL COMMENT 'Which child group ratified the node?',
-  `date` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT 'The date of the ratification.',
+  `date` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT 'The date of the ratification.',
   `comment` VARCHAR(45) NULL,
   PRIMARY KEY (`group_id`, `node_id`, `voter_group_id`))
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
+-- Table `thunder`.`Session`
+-- -----------------------------------------------------
+DROP TABLE IF EXISTS `thunder`.`Session` ;
+
+CREATE TABLE IF NOT EXISTS `thunder`.`Session` (
+  `user_id` INT NOT NULL,
+  `first_date` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `last_date` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  PRIMARY KEY (`user_id`))
 ENGINE = InnoDB;
 
 

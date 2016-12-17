@@ -141,6 +141,50 @@ var valhalla = function(api) {
 		return deferred.promise;
 	};
 
+	this.createNode = function(req, res, nodedata) {
+		var that = this,
+			deferred = Q.defer();
+
+		this.sql(`
+			INSERT INTO ${config.mysql.database}.Node
+			(
+				data,
+				view
+			)
+			VALUES (
+				`+db.escape(nodedata)+`,
+				'none'
+			);
+		`).then(function(result) {
+			if (result[0].affectedRows === 1) {
+				var insertId = result[0].insertId;
+				log.info('Created Node entity "'+nodedata+'", id: ' + insertId);
+				/*
+				that.associateGroupWithUser(req, res, insertId, api.session.user.id)
+					.then(function(returnValue) {
+						deferred.resolve(that.returnValue(returnValue, {
+							http_status: 201,
+							text: "Group created",
+							data: {
+								id: insertId,
+								name: groupname
+							}
+						}));
+					})
+				*/
+			} else {
+				log.error('Node INSERT caused ' + result[0].affectedRows + ' affected rows');
+			}
+		}).catch(function(returnValue) {
+			deferred.resolve(that.returnValue(returnValue, {
+				http_status: 400,
+				text: "Some required data was omitted."
+			}));
+		});
+
+		return deferred.promise;
+	};
+
 	this.associateGroupWithUser = function(req, res, groupId, userId) {
 		var that = this,
 			deferred = Q.defer();

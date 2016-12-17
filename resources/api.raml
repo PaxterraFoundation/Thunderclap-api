@@ -8,6 +8,7 @@ version: v1
   post:
     description: Create user record
     queryParameters:
+      username:
       email:
       password:
       image:
@@ -17,8 +18,11 @@ version: v1
            application/json:
   get:
     description: Retrieve user record
-    queryParameters:
-      username:
+    headers:
+      X-Paxterra-Username:
+        displayName: Username
+        description: |
+          Username to use for session emulation. For development only.
     responses:
        200:
          body:
@@ -26,8 +30,11 @@ version: v1
   /groups:
     get:
       description: List user's immediate groups
-      queryParameters:
-        username:
+      headers:
+        X-Paxterra-Username:
+          displayName: Username
+          description: |
+            Username to use for session emulation. For development only.
       responses:
          200:
            body:
@@ -35,8 +42,12 @@ version: v1
 /groups:
   post:
     description: Create group
+    headers:
+      X-Paxterra-Username:
+        displayName: Username
+        description: |
+          Username to use for session emulation. For development only.
     queryParameters:
-      username:
       groupname:
     responses:
        201:
@@ -45,8 +56,11 @@ version: v1
   /nodes:
     get:
       description: Get fully and partially-ratified nodes
-      queryParameters:
-        username:
+      headers:
+        X-Paxterra-Username:
+          displayName: Username
+          description: |
+            Username to use for session emulation. For development only.
       responses:
          200:
            body:
@@ -54,8 +68,11 @@ version: v1
     /ratified:
       get:
         description: Get fully-ratified nodes
-        queryParameters:
-          username:
+        headers:
+          X-Paxterra-Username:
+            displayName: Username
+            description: |
+              Username to use for session emulation. For development only.
         responses:
            200:
              body:
@@ -63,9 +80,26 @@ version: v1
   /members:
     get:
       description: Get all members of this group
-      queryParameters:
-        username:
+      headers:
+        X-Paxterra-Username:
+          displayName: Username
+          description: |
+            Username to use for session emulation. For development only.
       responses:
          200:
            body:
              application/json:
+/nodes:
+  post:
+    description: Create a node
+    headers:
+      X-Paxterra-Username:
+        displayName: Username
+        description: |
+          Username to use for session emulation. For development only.
+    queryParameters:
+      nodedata:
+    responses:
+      200:
+        body:
+          application/json:

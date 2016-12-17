@@ -6,7 +6,8 @@
 		"09b62ed1-0823-831c-f9fd-2efaa7467283",
 		"af373ced-89ca-5f31-8524-ce0dde398c1f",
 		"7d33f42d-3183-aaf7-2d90-340f974ce671",
-		"07c3c7cd-f088-ab5b-55cb-3ebb507f3449"
+		"07c3c7cd-f088-ab5b-55cb-3ebb507f3449",
+		"5cd76389-6db3-616d-172e-c62a7b33adf7"
 	],
 	"folders": [],
 	"timestamp": 1481657865518,
@@ -15,8 +16,8 @@
 	"requests": [
 		{
 			"id": "07c3c7cd-f088-ab5b-55cb-3ebb507f3449",
-			"headers": "",
-			"url": "{{api_url}}/users/groups?username={{username}}",
+			"headers": "X-Paxterra-Username: {{username}}\n",
+			"url": "{{api_url}}/users/groups",
 			"preRequestScript": null,
 			"pathVariables": {},
 			"method": "GET",
@@ -34,7 +35,7 @@
 			"tests": "tests[\"Status code is 200\"] = responseCode.code === 200;",
 			"currentHelper": "normal",
 			"helperAttributes": {},
-			"time": 1481919434115,
+			"time": 1481931999588,
 			"name": "Users/Groups",
 			"description": "",
 			"collectionId": "ce5a2781-b36a-1b32-9c48-8d00454be05d",
@@ -67,9 +68,9 @@
 			"responses": []
 		},
 		{
-			"id": "7d33f42d-3183-aaf7-2d90-340f974ce671",
-			"headers": "",
-			"url": "{{api_url}}/groups/?groupname={{groupname}}&username={{username}}",
+			"id": "5cd76389-6db3-616d-172e-c62a7b33adf7",
+			"headers": "X-Paxterra-Username: {{username}}\n",
+			"url": "{{api_url}}/nodes/?nodedata={{nodetext}}",
 			"preRequestScript": null,
 			"pathVariables": {},
 			"method": "POST",
@@ -87,7 +88,34 @@
 			"tests": "tests[\"Status code is 200\"] = responseCode.code === 200;",
 			"currentHelper": "normal",
 			"helperAttributes": {},
-			"time": 1481921859853,
+			"time": 1481932009188,
+			"name": "Nodes",
+			"description": "",
+			"collectionId": "ce5a2781-b36a-1b32-9c48-8d00454be05d",
+			"responses": []
+		},
+		{
+			"id": "7d33f42d-3183-aaf7-2d90-340f974ce671",
+			"headers": "X-Paxterra-Username: {{username}}\n",
+			"url": "{{api_url}}/groups/?groupname={{groupname}}",
+			"preRequestScript": null,
+			"pathVariables": {},
+			"method": "POST",
+			"data": [
+				{
+					"key": "",
+					"value": "",
+					"type": "text",
+					"enabled": true,
+					"warning": ""
+				}
+			],
+			"dataMode": "params",
+			"version": 2,
+			"tests": "tests[\"Status code is 200\"] = responseCode.code === 200;",
+			"currentHelper": "normal",
+			"helperAttributes": {},
+			"time": 1481931982155,
 			"name": "Groups",
 			"description": "",
 			"collectionId": "ce5a2781-b36a-1b32-9c48-8d00454be05d",
@@ -95,8 +123,8 @@
 		},
 		{
 			"id": "af373ced-89ca-5f31-8524-ce0dde398c1f",
-			"headers": "",
-			"url": "{{api_url}}/users/?username={{username}}",
+			"headers": "X-Paxterra-Username: {{username}}\n",
+			"url": "{{api_url}}/users/",
 			"preRequestScript": null,
 			"pathVariables": {},
 			"method": "GET",
@@ -114,7 +142,7 @@
 			"tests": "tests[\"Status code is 200\"] = responseCode.code === 200;",
 			"currentHelper": "normal",
 			"helperAttributes": {},
-			"time": 1481921861948,
+			"time": 1481931945660,
 			"name": "Users",
 			"description": "",
 			"collectionId": "ce5a2781-b36a-1b32-9c48-8d00454be05d",
